@@ -1,0 +1,82 @@
+<!--
+ * Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <script>
+      function onAuthScriptLoad() {
+        console.log("onAuthscript load...");
+        const urlParams = new URLSearchParams(window.location.search);
+
+        var authorizationCode = urlParams.get("code");
+        var authSessionState = urlParams.get("session_state");
+
+        var authIdPs = urlParams.get("AuthenticatedIdPs");
+
+        function authenticateWithSDK() {
+          if (!authorizationCode) {
+
+            var auth = AsgardeoAuth.AsgardeoSPAClient.getInstance();
+
+            var authConfig = {
+              signInRedirectURL: "https://localhost:3000/app.html",
+              signOutRedirectURL: "https://localhost:3000/app.html",
+              clientID: "JkIAFvF85F8BXXRpYpZSDxEzAawa",
+              baseUrl: "https://api.asgardeo.io/t/yathindra",
+              responseMode: "query",
+              scope: ["openid SYSTEM profile"],
+              storage: "sessionStorage",
+              disableTrySignInSilently: true,
+              enableOIDCSessionManagement: false,
+              enablePKCE: false
+            };
+
+            auth.initialize(authConfig);
+            auth.signIn();
+          } else {
+            // window.location.href =
+            //     "/app?code=" + code +"&AuthenticatedIdPs=" +
+            //     authIdPs + "&session_state=" + state;
+            console.log("Yay! we have the auth code")
+          }
+        }
+
+        authenticateWithSDK();
+      }
+    </script>
+    <script
+      async
+      onload="onAuthScriptLoad();"
+      src="https://unpkg.com/@asgardeo/auth-spa@0.4.9/dist/asgardeo-spa.production.min.js"
+    ></script>
+  </head>
+  <body>
+    Your authentication status is checking...
+    <!-- <noscript>
+             You need to enable JavaScript to run this app.
+         </noscript>
+         <div id="root"></div> -->
+  </body>
+</html>

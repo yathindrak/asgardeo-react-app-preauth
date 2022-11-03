@@ -1,0 +1,8 @@
+{
+    "clientID": "",
+    "baseUrl": "",
+    "signInRedirectURL": "https://localhost:3000",
+    "signOutRedirectURL": "https://localhost:3000",
+    "scope": [ "openid","profile" ],
+    "disableTrySignInSilently": true
+}
